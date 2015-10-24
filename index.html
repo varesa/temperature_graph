@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="jquery.canvasjs.min.js"></script>
+    <script type="text/javascript">
+        var datapoints = {};
+
+        $(document).ready(function () {
+            var chart  = new CanvasJS.Chart("chart", {
+                title: { text: "Temperature" },
+                axisX: { title: "Time"},
+                axisY: { title: "degrees C"},
+                zoomEnabled: true,
+                data: []
+            });
+            chart.render();
+
+            $.get("http://172.17.0.80:3000/values", function(arr) {
+                for(var x = 0; x < arr.length; x++) {
+                    if(Object.keys(datapoints).indexOf(arr[x].deviceId) == -1) {
+                        datapoints[arr[x].deviceId] = [];
+                        chart.options.data.push({
+                            type: "line",
+                            xValueType: "dateTime",
+                            dataPoints: datapoints[arr[x].deviceId]
+                        });
+                    }
+                    datapoints[arr[x].deviceId].push({x: new Date(arr[x].date), y: arr[x].value});
+                }
+
+                chart.render();
+            });
+
+            /*setInterval(function () {
+                $.get("http://192.168.0.8:3000/values", function(data) {
+                    t1 = data[Object.keys(data)[0]];
+                    datapoints1.push({x: new Date(t1.date), y: parseFloat(t1.value)});
+                    t2 = data[Object.keys(data)[1]];
+                    datapoints2.push({x: new Date(t2.date), y: parseFloat(t2.value)});
+
+                    chart.render();
+                });
+            }, 5000);*/
+        })
+    </script>
+</head>
+<body>
+    <div id="chart" style="width: 100%; height: 400px;"></div>
+</body>
+</html>
