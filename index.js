@@ -6,7 +6,7 @@ function display_values() {
     for(var x = 0; x < keys.length; x++) {
 	var key = keys[x];
 	console.log(key);
-	var element = $("<div/>").html("<h1>" + Math.round(parseFloat(values[key])*100)/100 + "</h1>" + "<br>" + "<h3>" + key + "</h3>" + "<br><br>");
+	var element = $("<div/>").html("<h1>" + Math.round(parseFloat(values[key])*100)/100 + "</h1>" + "<h3>" + key + "</h3>" + "<br><br>");
 	$("#container").append(element);
     }
 }
