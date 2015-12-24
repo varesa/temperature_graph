@@ -46,6 +46,7 @@ function page_from_url(url) {
 
 function get_values(url, last) {
     url = url || "https://temperature-cache.esav.fi/values/limit/" + request_size + "/page/0";
+    url = url.replace("-cache", "-data");
     if(last !== undefined) {
         set_status("Fetching " + url + " (" + page_from_url(url) + "/" + page_from_url(last) + ")");
     }
